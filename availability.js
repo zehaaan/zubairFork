@@ -14,8 +14,8 @@ async function getAvailableSlots() {
     end.setDate(now.getDate() + 7);
     const endTime = end.toISOString();
 
-    const eventTypeId = 1409993;
-    const eventTypeSlug = 'ai-voice-agent-discovery';
+    const eventTypeId = 1408517;
+    const eventTypeSlug = 'callbackevent';
     const duration = 30;
     const url = `https://api.cal.com/v2/slots/available?startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&eventTypeId=${eventTypeId}&eventTypeSlug=${eventTypeSlug}&duration=${duration}`;
 
@@ -32,16 +32,16 @@ async function getAvailableSlots() {
         const data = await response.json();
 
         if (data.status === 'success') {
-            // Convert slot times to Australia/Sydney time
-            const slotsInSydneyTime = [];
+            // Convert slot times to Los Angeles time
+            const slotsInLosAngelesTime = [];
             for (const date in data.data.slots) {
                 data.data.slots[date].forEach(slot => {
                     const utcDate = new Date(slot.time);
-                    const sydneyTime = utcDate.toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
-                    slotsInSydneyTime.push({ date, time: sydneyTime });
+                    const losAngelesTime = utcDate.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+                    slotsInLosAngelesTime.push({ date, time: losAngelesTime });
                 });
             }
-            return slotsInSydneyTime; // Array of formatted slots
+            return slotsInLosAngelesTime; // Array of formatted slots
         } else {
             throw new Error('Failed to retrieve slots');
         }
