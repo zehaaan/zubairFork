@@ -1,8 +1,11 @@
-const { get } = require('http');
+const express = require('express');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
 const apiToken = process.env.CALCOM_API_KEY;
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 async function getAvailableSlots() {
     const now = new Date();
@@ -48,4 +51,17 @@ async function getAvailableSlots() {
     }
 }
 
-module.exports = { getAvailableSlots };
+// Define a route to fetch available slots
+app.get('/available-slots', async (req, res) => {
+    try {
+        const slots = await getAvailableSlots();
+        res.json(slots);  // Send the available slots as JSON response
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching available slots' });
+    }
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
