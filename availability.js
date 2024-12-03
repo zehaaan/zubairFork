@@ -37,7 +37,7 @@ async function getAvailableSlots() {
             for (const date in data.data.slots) {
                 data.data.slots[date].forEach(slot => {
                     const utcDate = new Date(slot.time);
-                    const losAngelesTime = utcDate.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+                    const losAngelesTime = utcDate.toLocaleString('en-US', { timeZone: 'America/Toronto' });
                     slotsInLosAngelesTime.push({ date, time: losAngelesTime });
                 });
             }
